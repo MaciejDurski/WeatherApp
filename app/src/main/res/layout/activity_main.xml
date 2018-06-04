@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:tools="http://schemas.android.com/tools"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		android:background="@color/colorPrimaryDark"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:padding="10dp"
+		tools:context="com.example.maciej.weatherapp.MainActivity">
+
+
+	<TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+			  android:id="@+id/cityNameTV"
+			  android:textSize="18sp"
+			  android:textStyle="bold"
+			  android:layout_marginTop="15dp"
+			  android:layout_centerHorizontal="true"
+			  android:text="Poznan, Poland"
+			  android:textColor="#fff"
+
+	/>
+
+	<ImageView
+			android:layout_below="@+id/cityNameTV"
+			android:id="@+id/imageThumbailIconIV"
+			android:layout_width="100dp" android:layout_height="100dp"
+			android:layout_marginTop="60dp"
+			android:layout_marginLeft="5dp"
+			android:background="#fff"
+			android:layout_centerHorizontal="true"
+
+	/>
+	<TextView
+			android:id="@+id/temperatureTV"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:text="30oC"
+			android:textSize="32sp"
+			android:layout_below="@+id/cityNameTV"
+			android:layout_centerHorizontal="true"
+			android:padding="5dp"
+			android:textColor="#fff"
+	/>
+	<TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+			  android:text="Last updated"
+			  android:id="@+id/lastUpdatedTV"
+			  android:textColor="#fff"
+			  android:layout_alignParentBottom="true"
+			  android:layout_marginBottom="15dp"/>
+
+	<TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+			  android:text="Wind"
+			  android:textColor="#fff"
+			  android:id="@+id/windText"
+			  android:layout_marginTop="230dp"
+			  android:layout_marginLeft="15dp"/>
+	<TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+			  android:text="Cloud"
+			  android:textColor="#fff"
+			  android:id="@+id/cloudText"
+			  android:layout_marginTop="255dp"
+			  android:layout_marginLeft="15dp"/>
+	<TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+			  android:text="Pressure"
+			  android:textColor="#fff"
+			  android:id="@+id/pressureText"
+			  android:layout_marginTop="280dp"
+			  android:layout_marginLeft="15dp"/>
+	<TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+			  android:text="Humidity"
+			  android:textColor="#fff"
+			  android:id="@+id/humidityText"
+			  android:layout_marginTop="305dp"
+			  android:layout_marginLeft="15dp"/>
+	<TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+			  android:text="Sunrise"
+			  android:textColor="#fff"
+			  android:id="@+id/sunriseText"
+			  android:layout_marginTop="330dp"
+			  android:layout_marginLeft="15dp"/>
+	<TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+			  android:text="Sunset"
+			  android:textColor="#fff"
+			  android:id="@+id/sunsetText"
+			  android:layout_marginTop="355dp"
+			  android:layout_marginLeft="15dp"/>
+
+
+
+</RelativeLayout>
