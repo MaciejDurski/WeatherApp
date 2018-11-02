@@ -2,23 +2,36 @@ package com.example.maciej.weatherapp;
 
 
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
 	public static TextView  cityName;
 	public static TextView  temp;
-	private TextView  description;
-	private TextView  humidity;
-	private TextView  pressure;
-	private TextView  wind;
-	private TextView  sunrise;
-	private TextView  sunset;
-	private TextView  updated;
-	private ImageView iconView;
+	public static TextView description;
+	public static TextView humidity;
+	public static TextView pressure;
+	public static TextView wind;
+	public static TextView sunrise;
+	public static TextView sunset;
+	public static TextView updated;
+	public static ImageView iconView;
+	public static TextView cloud;
+
+
+	public static String weatherSumm;
+	Boolean isPlaying = false;
+	TextToSpeech toSpeech;
+	int result;
+
 
 	@Override
 	protected void onCreate( Bundle savedInstanceState ) {
@@ -30,68 +43,95 @@ public class MainActivity extends AppCompatActivity {
 		description = findViewById( R.id.cloudText );
 		humidity = findViewById( R.id.humidityText );
 		pressure = findViewById( R.id.pressureText );
-		wind = findViewById( R.id.withText );
+		wind = findViewById(R.id.windText);
 		sunrise = findViewById( R.id.sunriseText );
 		sunset = findViewById( R.id.sunsetText );
 		updated = findViewById( R.id.lastUpdatedTV );
+		cloud = findViewById(R.id.cloudText);
 		iconView = findViewById( R.id.imageThumbailIconIV );
 
-		temp.setText( "gówno" );
+
+		toSpeech = new TextToSpeech(MainActivity.this, new TextToSpeech.OnInitListener() {
+			@Override
+			public void onInit(int i) {
+				if (i == TextToSpeech.SUCCESS) {
+					result = toSpeech.setLanguage(Locale.UK);
+
+				} else {
+					Toast.makeText(MainActivity.this, "not available", Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
 
 
 
 		findWeather();
+		readingWeather();
 
 
+	}
+
+	private void readingWeather() {
 
 
+		final ImageButton readWeatherBtn = findViewById(R.id.imageButton);
+		readWeatherBtn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+
+				if (isPlaying == false) {
+					if ((result == TextToSpeech.LANG_MISSING_DATA)) {
+						Toast.makeText(MainActivity.this, "lang not available", Toast.LENGTH_SHORT).show();
+
+					} else {
+
+						toSpeech.speak(weatherSumm, TextToSpeech.QUEUE_FLUSH, null);
+					}
+					readWeatherBtn.setImageResource(R.mipmap.speaker);
+					isPlaying = true;
+				} else {
+					if (toSpeech != null) {
+						toSpeech.stop();
+					}
+					readWeatherBtn.setImageResource(R.mipmap.mute);
+					isPlaying = false;
+				}
+
+			}
+		});
 	}
 
 	private void findWeather() {
 
 		GetDataFromApiUrl getDataFromApiUrl = new GetDataFromApiUrl();
 		getDataFromApiUrl.execute(  );
-		Log.e( "kurwa", "japierdole" );
-
-		/*String url = "http://api.openweathermap.org/data/2.5/weather?q=Poznan&appid=b992f5d7096dc4a073bfa567e1b11286&units=metric";
-
-		JsonObjectRequest jsonObjectRequest = new JsonObjectRequest( Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-			@Override public void onResponse( final JSONObject response ) {
-
-				try {
-					JSONObject jsonObject = response.getJSONObject( "main" );
-
-					JSONArray jsonArray = response.getJSONArray( "weather" );
-
-					JSONObject object = jsonArray.getJSONObject( 0 );
-
-					String tempS = String.valueOf( jsonObject.getInt( "temp" ) );
-					String pressureS = String.valueOf( jsonObject.getInt( "pressure" ) );
-					String humidityS = String.valueOf( jsonObject.getInt( "humidity" ) );
-
-					Log.e( "temp",tempS );
-
-					String city = response.getString( "name" );
 
 
-					temp.setText(tempS);
 
-					String descripction = object.getString( "description" );
-
-
-				} catch ( JSONException e ) {
-					e.printStackTrace();
-				}
-
-
-			}
-		} , new Response.ErrorListener() {
-			@Override public void onErrorResponse( final VolleyError error ) {
-
-			}
-		});
-
-		RequestQueue queue = Volley.newRequestQueue( this );
-		queue.add( jsonObjectRequest );*/
 	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if (toSpeech != null) {
+			toSpeech.stop();
+			toSpeech.shutdown();
+		}
+
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		if (toSpeech != null) {
+			toSpeech.stop();
+			toSpeech.shutdown();
+		}
+	}
+
+	public static void setWeatherSumm(String weatherSumm) {
+		MainActivity.weatherSumm = weatherSumm;
+	}
+
+
 }
